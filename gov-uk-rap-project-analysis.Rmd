@@ -1,0 +1,42 @@
+---
+title: "rap-word-cloud"
+author: "Nathan Begbie"
+date: "12/03/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(googlesheets4)
+
+# 
+
+library(wordcloud)
+```
+
+## RAP in Government
+
+we'd like to include the ...
+
+```{r}
+# https://googlesheets4.tidyverse.org/articles/articles/auth.html#sheets_deauth
+sheets_deauth()
+
+sheet_url <- "https://docs.google.com/spreadsheets/d/1pwbcXwuMT4zignv5hghDS-eMxTkogwpX8Bt3bCL7SSA/edit#gid=1796469886"
+data <- sheets_read(sheet_url)
+colnames(data)
+```
+
+Great! we have the spreadsheets, let's get the column with the descriptions.
+Let's get the `"Please provide a brief outline of the example"` column and use that list of words to feed in to the workd cloud library
+
+```{r}
+list_of_words <- unlist(strsplit(data$`Please provide a brief outline of the example`, " "))
+head(list_of_words)
+```
+
+Finally, let's use the wordcloud library
+
+```{r}
+wordcloud(list_of_words, max.words = 50)
+```
